@@ -14,7 +14,7 @@ exports.postCommit = (req, res, next) => {
                     //console.log(response);
                     var logStream = fs.createWriteStream('site/src/app/app.component.html', {flags: 'a'});
                     logStream.write('<br/><p>This is a commit block</p>');
-                    execProcess.result('git add . & git commit -m "New block commited." & git push -u origin topic/work-on-site', (err, response) => {
+                    execProcess.result('cd ../site & git add . & git commit -m "New block commited." & git push -u origin topic/work-on-site', (err, response) => {
                         if(!err){
                             console.log(response);
                         } else {
