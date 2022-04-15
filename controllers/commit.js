@@ -3,23 +3,42 @@
 var fs = require('fs');
 
 exports.postCommit = (req, res, next) => {
+    console.log(req.body);
     const commitText = req.body.commitText;
     //Commit(commitText).
     var execProcess = require("./exec_process.js");
-    execProcess.result("git clone https://github.com/Phantom-Intruder/site.git", function(err, response){
-        if(!err){
-            console.log(response);
-            var logStream = fs.createWriteStream('../site/src/app/app.component.html', {flags: 'a'});
-            logStream.write('<p>This is a commit block</p>');
-        }else {
-            console.log(err);
+    execProcess.result("git clone https://github.com/Phantom-Intruder/site.git & git checkout -b topic/work-on-site", (err) => {
+        if (err){
+            execProcess.result("cd site & git checkout topic/work-on-site & git reset --hard & git pull origin topic/work-on-site", (err) => {
+                if(!err){
+                    changeFileAndCommit(execProcess, commitText);
+                }else {
+                    console.log(err);
+                    console.log("There was an err in method")
+                    return err;
+                }
+            })
+        } else {
+            changeFileAndCommit(execProcess, commitText);
         }
+    })
+    .then(value => {
+        console.log("asdadasdasdasd");
+    })
+    .catch(err => {
+        console.log("There was an err in promise")
+        console.log(err);
     })
 }
 
-performGitCommand = (command) => {
-    if (shell.exec(command).code !== 0) {
-        shell.echo('Error: Git commit failed');
-        shell.exit(1);
-    }
+changeFileAndCommit = (execProcess, commitText) => {
+    var logStream = fs.createWriteStream('site/src/app/app.component.html', { flags: 'a' });
+    logStream.write('<br/><p>' + commitText + '</p>');
+    execProcess.result('cd site & git commit -am "New block commited." & git push -u origin topic/work-on-site', (err, response) => {
+        if (!err) {
+            console.log(response);
+        } else {
+            console.log(err);
+        }
+    });
 }
