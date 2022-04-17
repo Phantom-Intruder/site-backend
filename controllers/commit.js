@@ -11,24 +11,37 @@ exports.postCommit = (req, res, next) => {
         if (err){
             execProcess.result("cd site & git checkout topic/work-on-site & git reset --hard & git pull origin topic/work-on-site", (err) => {
                 if(!err){
-                    changeFileAndCommit(execProcess, commitText);
+                    var isRequestError = changeFileAndCommit(execProcess, commitText);
+                    if (isRequestError) {
+                        res.status(500).json({
+                            message: 'Server error!'
+                        })
+                    } else {
+                        res.status(201).json({
+                            message: 'Process successfull!'
+                        })
+                    }
                 }else {
                     console.log(err);
                     console.log("There was an err in method")
-                    return err;
+                    res.status(500).json({
+                        message: 'Server error!'
+                    })
                 }
-            })
+            });
         } else {
-            changeFileAndCommit(execProcess, commitText);
+            var isRequestError = changeFileAndCommit(execProcess, commitText);
+            if (isRequestError) {
+                res.status(500).json({
+                    message: 'Server error!'
+                })
+            } else {
+                res.status(201).json({
+                    message: 'Process successfull!'
+                })
+            }
         }
-    })
-    .then(value => {
-        console.log("asdadasdasdasd");
-    })
-    .catch(err => {
-        console.log("There was an err in promise")
-        console.log(err);
-    })
+    });
 }
 
 changeFileAndCommit = (execProcess, commitText) => {
@@ -37,8 +50,10 @@ changeFileAndCommit = (execProcess, commitText) => {
     execProcess.result('cd site & git commit -am "New block commited." & git push -u origin topic/work-on-site', (err, response) => {
         if (!err) {
             console.log(response);
+            return false;
         } else {
             console.log(err);
+            return true;
         }
     });
 }
