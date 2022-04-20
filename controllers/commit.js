@@ -56,7 +56,7 @@ changeFileAndCommit = (execProcess, commitText) => {
     logStream.write('<br/><p>' + commitText + '</p>');
     execProcess.result('git diff', (err, response) => {
     });
-    execProcess.result('cd site && git commit -am "New block commited." && git push -u origin topic/work-on-site', (err, response) => {
+    execProcess.result('cd site && git commit -am "New block commited." && git push https://Phantom-Intruder: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@github.com/Phantom-Intruder/site-backend.git topic/work-on-site', (err, response) => {
         if (!err) {
             console.log(response);
             return false;
