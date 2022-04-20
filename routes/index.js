@@ -9,16 +9,20 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/so', (req, res, next) => {
-  res.writeHead(301,{Location: "http://expressjs.com/en/starter/basic-routing.html"});
+  res.redirect("https://stackoverflow.com/users/3730626/m-b");
 });
 
 router.get('/li', (req, res, next) => {
-  res.send("Redirecting you to my LinkedIn page");
-  setTimeout(() => {
-    res.writeHead(301,{Location: "http://expressjs.com/en/starter/basic-routing.html"});
-    //window.location.href='https://www.upwork.com/freelancers/~0170c47a314ef06a17';
-  }, 3000);
+  res.redirect("https://linkedin.com/in/mewantha-bandara/");
 });
+
+router.get('/gh', (req, res, next) => {
+  res.redirect("https://github.com/Phantom-Intruder/");
+})
+
+router.get('/uw', (req, res, next) => {
+  res.redirect("https://www.upwork.com/freelancers/~0170c47a314ef06a17");
+})
 
 router.post('/commit', commitController.postCommit)
 
