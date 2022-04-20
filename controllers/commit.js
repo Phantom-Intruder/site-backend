@@ -54,7 +54,9 @@ exports.postCommit = (req, res, next) => {
 changeFileAndCommit = (execProcess, commitText) => {
     var logStream = fs.createWriteStream('site/src/app/app.component.html', { flags: 'a' });
     logStream.write('<br/><p>' + commitText + '</p>');
-    execProcess.result('git commit -am "New block commited." && git push -u origin topic/work-on-site', (err, response) => {
+    execProcess.result('git diff', (err, response) => {
+    });
+    execProcess.result('cd site && git commit -am "New block commited." && git push -u origin topic/work-on-site', (err, response) => {
         if (!err) {
             console.log(response);
             return false;
