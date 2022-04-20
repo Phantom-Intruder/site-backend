@@ -7,9 +7,9 @@ exports.postCommit = (req, res, next) => {
     const commitText = req.body.commitText;
     //Commit(commitText).
     var execProcess = require("./exec_process.js");
-    execProcess.result("git clone https://github.com/Phantom-Intruder/site.git & git checkout -b topic/work-on-site", (err) => {
+    execProcess.result("git clone https://github.com/Phantom-Intruder/site.git && cd site && git checkout -b topic/work-on-site", (err) => {
         if (err){
-            execProcess.result("cd site & git checkout topic/work-on-site & git reset --hard & git pull origin topic/work-on-site", (err) => {
+            execProcess.result("cd site && git checkout topic/work-on-site && git reset --hard && git pull origin topic/work-on-site", (err) => {
                 if(!err){
                     var isRequestError = changeFileAndCommit(execProcess, commitText);
                     if (isRequestError) {
@@ -47,7 +47,7 @@ exports.postCommit = (req, res, next) => {
 changeFileAndCommit = (execProcess, commitText) => {
     var logStream = fs.createWriteStream('site/src/app/app.component.html', { flags: 'a' });
     logStream.write('<br/><p>' + commitText + '</p>');
-    execProcess.result('cd site & git commit -am "New block commited." & git push -u origin topic/work-on-site', (err, response) => {
+    execProcess.result('cd site && git commit -am "New block commited." && git push -u origin topic/work-on-site', (err, response) => {
         if (!err) {
             console.log(response);
             return false;
