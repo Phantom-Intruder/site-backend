@@ -14,7 +14,7 @@ exports.postCommit = (req, res, next) => {
             })
         }
     });
-    execProcess.result("git clone https://github.com/Phantom-Intruder/site.git && cd site && git checkout -b topic/work-on-site", (err) => {
+    execProcess.result("git clone https://github.com/Phantom-Intruder/site.git && cd site && git checkout -b topic/work-on-site && git pull origin topic/work-on-site", (err) => {
         if (err){
             execProcess.result("cd site && git checkout topic/work-on-site && git reset --hard && git pull origin topic/work-on-site", (err) => {
                 if(!err){
