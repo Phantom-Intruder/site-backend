@@ -56,12 +56,12 @@ changeFileAndCommit = (execProcess, commitText) => {
     logStream.write('<br/><p>' + commitText + '</p>');
     let buff = Buffer.from("Z2hwX0h0anBTN3dSVWJFSHJFU0taZjd4NzZ3b2I2ejlJSDJYT1hmQw==", 'base64');  
     let text = buff.toString('utf-8');
-    execProcess.result('ls && git diff && cd site && git commit -am "New block commited." && git push https://Phantom-Intruder:' + text + '@github.com/Phantom-Intruder/site.git topic/work-on-site', (err, response) => {
+    execProcess.result('cd site && ls && git diff && git commit -am "New block commited." && git push https://Phantom-Intruder:' + text + '@github.com/Phantom-Intruder/site.git topic/work-on-site', (err, response) => {
         if (!err) {
             console.log(response);
             return false;
         } else {
-            execProcess.result('git push https://Phantom-Intruder:' + text + '@github.com/Phantom-Intruder/site.git topic/work-on-site', (err, response) => {
+            execProcess.result('cd site && git push https://Phantom-Intruder:' + text + '@github.com/Phantom-Intruder/site.git topic/work-on-site', (err, response) => {
                 if (err){
                     console.log(err);
                 }
