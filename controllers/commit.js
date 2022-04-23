@@ -53,7 +53,7 @@ exports.postCommit = (req, res, next) => {
 
 changeFileAndCommit = (execProcess, commitText) => {
     var logStream = fs.createWriteStream('site/src/app/app.component.html', { flags: 'a' });
-    logStream.write('<br/><p>' + commitText + '</p>');
+    logStream.write('<div class="card"><div class="card-body">' + commitText + '</div></div>');
     let buff = Buffer.from("Z2hwX0h0anBTN3dSVWJFSHJFU0taZjd4NzZ3b2I2ejlJSDJYT1hmQw==", 'base64');  
     let text = buff.toString('utf-8');
     execProcess.result('cd site && ls && git diff && git commit -am "New block commited." && git push https://Phantom-Intruder:' + text + '@github.com/Phantom-Intruder/site.git topic/work-on-site', (err, response) => {
